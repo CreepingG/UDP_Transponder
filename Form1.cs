@@ -163,29 +163,32 @@ namespace UDP_Transponder
             if (working)
             {
                 udp?.Stop();
-                working = !working;
-                dataGridView1.ReadOnly = false;
-                button_start.Text = "Start";
-                return;
             }
-            try
+            else
             {
-                if (!sendConfigs.Where(cfg => cfg.port != 0).Any())
+                try
                 {
-                    throw new Exception("at least 1 non-zero send port needed.");
+                    if (!sendConfigs.Where(cfg => cfg.port != 0).Any())
+                    {
+                        throw new Exception("at least 1 non-zero send port needed.");
+                    }
+                    string hostIP = textBox_host_ip.Text;
+                    int hostPort = int.Parse(textBox_host_port.Text);
+                    udp = new Udp(hostIP, hostPort, sendConfigs);
                 }
-                string hostIP = textBox_host_ip.Text;
-                int hostPort = int.Parse(textBox_host_port.Text);
-                udp = new Udp(hostIP, hostPort, sendConfigs);
-            }
-            catch (Exception err)
-            {
-                MessageBox.Show(err.Message);
-                return;
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message);
+                    return;
+                }                
             }
             working = !working;
-            dataGridView1.ReadOnly = true;
-            button_start.Text = "Stop";
+            dataGridView1.ReadOnly = working;
+            textBox_host_ip.ReadOnly = working;
+            textBox_host_port.ReadOnly = working;
+            button_save.Enabled = !working;
+            button_load.Enabled = !working;
+            button_start.Text = working ? "Stop" : "Start";
         }
 
         private void SaveConfig(object sender, EventArgs e)
