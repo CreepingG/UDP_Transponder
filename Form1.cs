@@ -193,12 +193,31 @@ namespace UDP_Transponder
 
         private void SaveConfig(object sender, EventArgs e)
         {
-            AllConfig.Save(this);
+            SaveFileDialog dialog = new()
+            {
+                InitialDirectory = Application.StartupPath,
+                Title = "保存到",
+                Filter = "JSON文件(*.json)|*.json",
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                AllConfig.Save(this, dialog.FileName);
+            }
         }
 
-        private void LoadConfig(object sender, EventArgs e) // TODO: specify load from which file
+        private void LoadConfig(object sender, EventArgs e)
         {
-            AllConfig.Load(this);
+            OpenFileDialog dialog = new()
+            {
+                InitialDirectory = Application.StartupPath,
+                Multiselect = false,
+                Title = "选择配置文件",
+                Filter = "JSON文件(*.json)|*.json"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                AllConfig.Load(this, dialog.FileName);
+            }
         }
     }
 }
