@@ -180,7 +180,7 @@ namespace UDP_Transponder
                 {
                     MessageBox.Show(err.Message);
                     return;
-                }                
+                }
             }
             working = !working;
             dataGridView1.ReadOnly = working;
@@ -196,8 +196,8 @@ namespace UDP_Transponder
             SaveFileDialog dialog = new()
             {
                 InitialDirectory = Application.StartupPath,
-                Title = "保存到",
-                Filter = "JSON文件(*.json)|*.json",
+                Title = "Save As",
+                Filter = "JSON(*.json)|*.json",
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -211,8 +211,8 @@ namespace UDP_Transponder
             {
                 InitialDirectory = Application.StartupPath,
                 Multiselect = false,
-                Title = "选择配置文件",
-                Filter = "JSON文件(*.json)|*.json"
+                Title = "Choose Config File",
+                Filter = "JSON(*.json)|*.json"
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
